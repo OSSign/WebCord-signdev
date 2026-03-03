@@ -44,12 +44,7 @@ jobs:
             app
             cache/tsc.json
 
-      - name: Publish distributables (${{ matrix.arch}})
-        uses: nick-fields/retry@v2
+      - name: Publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          retry_on: error
-          max_attempts: ${{ matrix.name == 'Windows' && 6 || 3 }}
-          timeout_minutes: ${{ matrix.name == 'Windows' && 15 || 10 }}
-          command: npm run publish -- -a ${{ matrix.arch }}
+        run: npm run publish -- -a ${{ matrix.arch }} -d

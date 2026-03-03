@@ -52,8 +52,6 @@ const desktopCategories = (["Network", "InstantMessaging"] as unknown as ["Netwo
 
 // Some custom functions
 
-const signerFunction = GetElectronForgeSignerFunction("pecoff");
-
 async function getCommit():Promise<string | null> {
   const headPath = resolve(projectPath, ".git/HEAD");
   if(!existsSync(headPath))
@@ -135,7 +133,9 @@ const config:ForgeConfig = {
       iconUrl: `https://raw.githubusercontent.com/SpacingBat3/WebCord/${packageJson.data.version}/${iconFile}.ico`,
       noDelta: true,
       windowsSign: {
-        hookFunction: signerFunction
+        debug: true,
+        signJavaScript: false,
+        hookFunction: GetElectronForgeSignerFunction("pecoff")
       },
     })),
     new MakerDMG((arch) => ({
@@ -180,7 +180,12 @@ const config:ForgeConfig = {
         version: `v${packageJson.data.version}${getBuildID() === "devel" ? "-dev" : ""}`,
         shortName: "WebCord",
         programFilesFolderName: "WebCord",
-        shortcutFolderName: "WebCord"
+        shortcutFolderName: "WebCord",
+        windowsSign: {
+          debug: true,
+          signJavaScript: false,
+          hookFunction: GetElectronForgeSignerFunction("pecoff")
+        },
       }),
       /*
       * Since `maker-flatpak` is still silently failing, giving at normal
