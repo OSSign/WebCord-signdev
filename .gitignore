@@ -14,4 +14,4 @@ node_modules/
 !.github/
 # Husky – Git hooks implementation 
 !.husky/
-.husky/_/
+.husky/_/ 
