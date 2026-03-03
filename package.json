@@ -61,6 +61,7 @@
     "typescript-eslint": "^8.37.0"
   },
   "dependencies": {
+    "@ossign/ossign": "^1.0.11",
     "@spacingbat3/disconnection": "^1.0.3",
     "@spacingbat3/kolor": "^4.0.0",
     "deepmerge-ts": "^7.0.3",

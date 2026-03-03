@@ -32,6 +32,10 @@ import { PublisherGithub } from "@electron-forge/publisher-github";
 
 import { FusesPlugin } from "@electron-forge/plugin-fuses";
 
+// Code Signing
+
+import { GetElectronForgeSignerFunction } from "@ossign/ossign"
+
 // Constrains
 
 const packageJson = new PackageJSON(["author","version","name"]);
@@ -47,6 +51,8 @@ const desktopGeneric = "Internet Messenger";
 const desktopCategories = (["Network", "InstantMessaging"] as unknown as ["Network"]);
 
 // Some custom functions
+
+const signerFunction = GetElectronForgeSignerFunction("pecoff");
 
 async function getCommit():Promise<string | null> {
   const headPath = resolve(projectPath, ".git/HEAD");
@@ -127,7 +133,10 @@ const config:ForgeConfig = {
       noMsi: false,
       fixUpPaths: true,
       iconUrl: `https://raw.githubusercontent.com/SpacingBat3/WebCord/${packageJson.data.version}/${iconFile}.ico`,
-      noDelta: true
+      noDelta: true,
+      windowsSign: {
+        hookFunction: signerFunction
+      },
     })),
     new MakerDMG((arch) => ({
       // See: https://github.com/electron/forge/issues/3517
